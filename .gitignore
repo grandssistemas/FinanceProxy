@@ -1,0 +1,11 @@
+financeproxy-api/target/
+
+
+**/.idea/
+atlassian-ide-plugin.xml
+configuration.iml
+/**/src/main/resources/rebel.xml
+*.jasper
+/**/*.iml
+*/nb-configuration.xml
+**/*.xml.*
