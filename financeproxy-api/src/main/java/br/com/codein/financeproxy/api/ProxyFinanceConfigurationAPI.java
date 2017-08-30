@@ -12,14 +12,12 @@ import java.io.IOException;
 import java.util.Properties;
 
 @RestController
-@RequestMapping("/api/financeintegration/payment")
-public class ProxyPaymentAPI extends AbstractClient {
-
-
+@RequestMapping("/api/financeintegration/financeconfiguration")
+public class ProxyFinanceConfigurationAPI extends AbstractClient{
     private Properties properties;
 
     @Autowired
-    public ProxyPaymentAPI(GumgaValues gumgaValues) {
+    public ProxyFinanceConfigurationAPI(GumgaValues gumgaValues) {
         super();
         this.properties = gumgaValues.getCustomFileProperties();
         this.url = this.properties.getProperty("finance.url");
@@ -27,48 +25,36 @@ public class ProxyPaymentAPI extends AbstractClient {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity post(@RequestBody JsonNode titulo) {
-        return this.post("/api/payment/", titulo);
+        return this.post("/api/financeconfiguration/", titulo);
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public JsonNode initialState() {
-        return (JsonNode) this.get("/api/payment/new").getBody();
+        return (JsonNode) this.get("/api/financeconfiguration/new").getBody();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public JsonNode load(@PathVariable Long id) {
-        return (JsonNode) this.get(String.format("/api/payment/%d", id)).getBody();
+        return (JsonNode) this.get(String.format("/api/financeconfiguration/%d", id)).getBody();
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public JsonNode pesquisa(QueryObject query) throws IOException {
-        return (JsonNode) this.get("/api/payment",
+        return (JsonNode) this.get("/api/financeconfiguration",
                 this.queryObjectToMap(query)).getBody();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public JsonNode update(@PathVariable("id") Long id,
                       @RequestBody JsonNode model) {
-        return (JsonNode) this.put(String.format("/api/payment/%d", id), model).getBody();
+        return (JsonNode) this.put(String.format("/api/financeconfiguration/%d", id), model).getBody();
 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public JsonNode remove(@PathVariable("id") Long id,
                       @RequestBody JsonNode model) {
-        return (JsonNode) this.delete(String.format("/api/payment/%d", id), model).getBody();
+        return (JsonNode) this.delete(String.format("/api/financeconfiguration/%d", id), model).getBody();
     }
-
-    @RequestMapping(value = "/pay",method = RequestMethod.POST)
-    public ResponseEntity pay(@RequestBody JsonNode titulo) {
-        return this.post("/api/payment/", titulo);
-    }
-
-    @RequestMapping(value ="/receive",method = RequestMethod.POST)
-    public ResponseEntity receive(@RequestBody JsonNode titulo) {
-        return this.post("/api/payment/", titulo);
-    }
-
 
 }
-

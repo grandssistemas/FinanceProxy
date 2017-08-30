@@ -1,8 +1,10 @@
 package br.com.codein.financeproxy.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.gumga.core.GumgaThreadScope;
 import io.gumga.core.QueryObject;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,6 +18,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -42,13 +45,31 @@ public abstract class AbstractClient {
         this.headers.set("Content-Type", "application/json;charset=utf-8");
         this.headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
         this.requestEntity = new HttpEntity(this.headers);
-        UriComponents uriComponents =  UriComponentsBuilder.fromHttpUrl(this.url.concat(url))
+        UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(this.url.concat(url))
                 .queryParams(this.mapToMultiValueMap(stringObjectMap)).build();
-        return this.restTemplate.exchange(uriComponents.toUriString().replaceAll("[\\[\\]]",""), HttpMethod.GET, (HttpEntity<?>) this.requestEntity, Map.class, stringObjectMap);
+        return this.restTemplate.exchange(uriComponents.toUriString().replaceAll("[\\[\\]]", ""), HttpMethod.GET, (HttpEntity<?>) this.requestEntity, JsonNode.class, stringObjectMap);
+    }
+
+    protected ResponseEntity getArray(String url, Map<String, String> stringObjectMap) {
+        this.restTemplate = new RestTemplate();
+        this.restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+        this.headers = new HttpHeaders();
+        this.headers.set("Accept", "application/json, text/plain, */*");
+        this.headers.set("Accept-Encoding", "gzip, deflate");
+        this.headers.set("Content-Type", "application/json;charset=utf-8");
+        this.headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
+        this.requestEntity = new HttpEntity(this.headers);
+        UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(this.url.concat(url))
+                .queryParams(this.mapToMultiValueMap(stringObjectMap)).build();
+        return this.restTemplate.exchange(uriComponents.toUriString().replaceAll("[\\[\\]]", ""), HttpMethod.GET, (HttpEntity<?>) this.requestEntity, JsonNode.class, stringObjectMap);
     }
 
     protected ResponseEntity get(String url) {
         return this.get(url, new HashMap<>());
+    }
+
+    protected ResponseEntity getArray(String url) {
+        return this.getArray(url, new HashMap<>());
     }
 
 
@@ -61,7 +82,7 @@ public abstract class AbstractClient {
         this.headers.set("Content-Type", "application/json;charset=utf-8");
         this.headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
         this.requestEntity = new HttpEntity(object, this.headers);
-        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.POST, (HttpEntity<?>) this.requestEntity, Map.class);
+        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.POST, (HttpEntity<?>) this.requestEntity, JsonNode.class);
     }
 
     protected ResponseEntity put(String url, Object object) {
@@ -73,7 +94,7 @@ public abstract class AbstractClient {
         this.headers.set("Content-Type", "application/json;charset=utf-8");
         this.headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
         this.requestEntity = new HttpEntity(object, this.headers);
-        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.PUT, (HttpEntity<?>) this.requestEntity, Map.class);
+        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.PUT, (HttpEntity<?>) this.requestEntity, JsonNode.class);
     }
 
     protected ResponseEntity delete(String url, Object object) {
@@ -85,16 +106,16 @@ public abstract class AbstractClient {
         this.headers.set("Content-Type", "application/json;charset=utf-8");
         this.headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
         this.requestEntity = new HttpEntity(object, this.headers);
-        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.DELETE, (HttpEntity<?>) this.requestEntity, Map.class);
+        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.DELETE, (HttpEntity<?>) this.requestEntity, JsonNode.class);
     }
 
-    protected Map<String,String> queryObjectToMap(QueryObject queryObject){
+    protected Map<String, String> queryObjectToMap(QueryObject queryObject) {
         ObjectMapper mapper = new ObjectMapper();
         String queryString = null;
         try {
             queryString = mapper.writeValueAsString(queryObject);
-            Map<String, String> result = mapper.readValue(queryString,Map.class);
-            if (queryObject.getSearchFields() == null || queryObject.getSearchFields().length == 0){
+            Map<String, String> result = mapper.readValue(queryString, Map.class);
+            if (queryObject.getSearchFields() == null || queryObject.getSearchFields().length == 0) {
                 result.remove("searchFields");
             }
             return result;
@@ -104,13 +125,13 @@ public abstract class AbstractClient {
         return null;
     }
 
-    private <K,V> MultiValueMap<K,V> mapToMultiValueMap(Map<K,V> map){
-        MultiValueMap<K,V> linkedMultiValueMap = new LinkedMultiValueMap<>();
+    private <K, V> MultiValueMap<K, V> mapToMultiValueMap(Map<K, V> map) {
+        MultiValueMap<K, V> linkedMultiValueMap = new LinkedMultiValueMap<>();
 
         map.keySet().forEach(key -> {
             linkedMultiValueMap.add(key, map.get(key));
         });
-        return  linkedMultiValueMap;
+        return linkedMultiValueMap;
 
     }
 }
