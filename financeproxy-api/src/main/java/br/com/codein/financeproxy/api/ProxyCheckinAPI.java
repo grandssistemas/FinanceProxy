@@ -1,17 +1,22 @@
 package br.com.codein.financeproxy.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.gumga.core.GumgaValues;
 import io.gumga.core.QueryObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 @RestController
-@RequestMapping("/api/financeintegration/checkin")
+@RequestMapping("/api/financeintegration/cashcheckin")
 public class ProxyCheckinAPI extends AbstractClient {
 
 
@@ -25,13 +30,24 @@ public class ProxyCheckinAPI extends AbstractClient {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity post(@RequestBody Map titulo) {
-        return this.post("/api/cashcheckin/", titulo);
+    public Map post(@RequestBody Map titulo) {
+        return (Map) this.post("/api/cashcheckin/", titulo).getBody();
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public Map initialState() {
         return (Map) this.get("/api/cashcheckin/new").getBody();
+    }
+
+    @RequestMapping(value = "/opencheckin", method = RequestMethod.GET)
+    public JsonNode openCheckin() {
+        return (JsonNode) this.getArray("/api/cashcheckin/opencheckin").getBody();
+    }
+
+    @RequestMapping(value = "/getbycurrentcashcheckin", method = RequestMethod.GET)
+    public JsonNode getbycurrentcashcheckin(@RequestParam  @DateTimeFormat(pattern = "YYYY-MM-dd'T'HH:mm:ssZ") Date date) {
+        String param = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ssZ").format(date);
+        return (JsonNode) this.getArray(String.format("/api/cashcheckin/getbycurrentcashcheckin?date=%s", param)).getBody();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
