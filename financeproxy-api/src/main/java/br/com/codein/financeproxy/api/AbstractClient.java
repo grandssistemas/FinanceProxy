@@ -47,7 +47,7 @@ public abstract class AbstractClient {
         this.requestEntity = new HttpEntity(this.headers);
         UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(this.url.concat(url))
                 .queryParams(this.mapToMultiValueMap(stringObjectMap)).build();
-        return this.restTemplate.exchange(uriComponents.toUriString().replaceAll("[\\[\\]]", ""), HttpMethod.GET, (HttpEntity<?>) this.requestEntity, Map.class, stringObjectMap);
+        return this.restTemplate.exchange(uriComponents.toUriString().replaceAll("[\\[\\]]", ""), HttpMethod.GET, (HttpEntity<?>) this.requestEntity, JsonNode.class, stringObjectMap);
     }
 
     protected ResponseEntity getArray(String url, Map<String, String> stringObjectMap) {
@@ -82,7 +82,7 @@ public abstract class AbstractClient {
         this.headers.set("Content-Type", "application/json;charset=utf-8");
         this.headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
         this.requestEntity = new HttpEntity(object, this.headers);
-        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.POST, (HttpEntity<?>) this.requestEntity, Map.class);
+        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.POST, (HttpEntity<?>) this.requestEntity, JsonNode.class);
     }
 
     protected ResponseEntity put(String url, Object object) {
@@ -94,7 +94,7 @@ public abstract class AbstractClient {
         this.headers.set("Content-Type", "application/json;charset=utf-8");
         this.headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
         this.requestEntity = new HttpEntity(object, this.headers);
-        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.PUT, (HttpEntity<?>) this.requestEntity, Map.class);
+        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.PUT, (HttpEntity<?>) this.requestEntity, JsonNode.class);
     }
 
     protected ResponseEntity delete(String url, Object object) {
@@ -106,7 +106,7 @@ public abstract class AbstractClient {
         this.headers.set("Content-Type", "application/json;charset=utf-8");
         this.headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
         this.requestEntity = new HttpEntity(object, this.headers);
-        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.DELETE, (HttpEntity<?>) this.requestEntity, Map.class);
+        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.DELETE, (HttpEntity<?>) this.requestEntity, JsonNode.class);
     }
 
     protected Map<String, String> queryObjectToMap(QueryObject queryObject) {

@@ -1,14 +1,14 @@
 package br.com.codein.financeproxy.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.gumga.core.GumgaValues;
 import io.gumga.core.QueryObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+
 import java.util.Properties;
 
 @RestController
@@ -26,9 +26,28 @@ public class ProxyPlanLeafAPI extends AbstractClient {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Map planLeaf(QueryObject query) {
-        return (Map) this.get("/api/planleaf",
+    public JsonNode planLeaf(QueryObject query) {
+        return (JsonNode) this.get("/api/planleaf",
                 this.queryObjectToMap(query)).getBody();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/types")
+    public JsonNode getTypes() {
+        return (JsonNode) this.get("/api/planleaf/types").getBody();
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public JsonNode post(@RequestBody JsonNode titulo) {
+        return (JsonNode) this.post("/api/planleaf", titulo).getBody();
+    }
+
+
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public JsonNode update(@PathVariable("id") Long id,
+                      @RequestBody JsonNode model) {
+        return (JsonNode) this.put(String.format("/api/planleaf/%d", id), model).getBody();
+
     }
 
 }

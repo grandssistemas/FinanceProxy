@@ -1,12 +1,13 @@
 package br.com.codein.financeproxy.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.gumga.core.GumgaValues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+
 import java.util.Properties;
 
 @RestController
@@ -24,8 +25,8 @@ public class ProxyPlanAPI extends AbstractClient {
     }
 
     @RequestMapping(value = "/plantree", method = RequestMethod.GET)
-    public Map planTree() {
-        return (Map) this.get("/api/plan/plantree").getBody();
+    public JsonNode planTree() {
+        return (JsonNode) this.get("/api/plan/plantree").getBody();
     }
 
 }

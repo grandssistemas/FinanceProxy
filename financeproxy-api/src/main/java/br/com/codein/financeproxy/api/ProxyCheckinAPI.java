@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+
 import java.util.Properties;
 
 @RestController
@@ -30,13 +30,13 @@ public class ProxyCheckinAPI extends AbstractClient {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Map post(@RequestBody Map titulo) {
-        return (Map) this.post("/api/cashcheckin/", titulo).getBody();
+    public JsonNode post(@RequestBody JsonNode titulo) {
+        return (JsonNode) this.post("/api/cashcheckin/", titulo).getBody();
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public Map initialState() {
-        return (Map) this.get("/api/cashcheckin/new").getBody();
+    public JsonNode initialState() {
+        return (JsonNode) this.get("/api/cashcheckin/new").getBody();
     }
 
     @RequestMapping(value = "/opencheckin", method = RequestMethod.GET)
@@ -51,27 +51,27 @@ public class ProxyCheckinAPI extends AbstractClient {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Map load(@PathVariable Long id) {
-        return (Map) this.get(String.format("/api/cashcheckin/%d", id)).getBody();
+    public JsonNode load(@PathVariable Long id) {
+        return (JsonNode) this.get(String.format("/api/cashcheckin/%d", id)).getBody();
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Map pesquisa(QueryObject query) throws IOException {
-        return (Map) this.get("/api/cashcheckin",
+    public JsonNode pesquisa(QueryObject query) throws IOException {
+        return (JsonNode) this.get("/api/cashcheckin",
                 this.queryObjectToMap(query)).getBody();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Map update(@PathVariable("id") Long id,
-                      @RequestBody Map model) {
-        return (Map) this.put(String.format("/api/cashcheckin/%d", id), model).getBody();
+    public JsonNode update(@PathVariable("id") Long id,
+                      @RequestBody JsonNode model) {
+        return (JsonNode) this.put(String.format("/api/cashcheckin/%d", id), model).getBody();
 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public Map remove(@PathVariable("id") Long id,
-                      @RequestBody Map model) {
-        return (Map) this.delete(String.format("/api/cashcheckin/%d", id), model).getBody();
+    public JsonNode remove(@PathVariable("id") Long id,
+                      @RequestBody JsonNode model) {
+        return (JsonNode) this.delete(String.format("/api/cashcheckin/%d", id), model).getBody();
 
     }
 
