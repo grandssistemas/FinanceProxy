@@ -11,12 +11,12 @@ import java.util.Map;
 import java.util.Properties;
 
 @RestController
-@RequestMapping("/api/financeintegration/entry")
-public class ProxyEntryAPI extends AbstractClient{
+@RequestMapping("/api/financeintegration/financeconfiguration")
+public class ProxyFinanceConfigurationAPI extends AbstractClient{
     private Properties properties;
 
     @Autowired
-    public ProxyEntryAPI(GumgaValues gumgaValues) {
+    public ProxyFinanceConfigurationAPI(GumgaValues gumgaValues) {
         super();
         this.properties = gumgaValues.getCustomFileProperties();
         this.url = this.properties.getProperty("finance.url");
@@ -24,36 +24,36 @@ public class ProxyEntryAPI extends AbstractClient{
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity post(@RequestBody Map titulo) {
-        return this.post("/api/entry/", titulo);
+        return this.post("/api/financeconfiguration/", titulo);
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public Map initialState() {
-        return (Map) this.get("/api/entry/new").getBody();
+        return (Map) this.get("/api/financeconfiguration/new").getBody();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Map load(@PathVariable Long id) {
-        return (Map) this.get(String.format("/api/entry/%d", id)).getBody();
+        return (Map) this.get(String.format("/api/financeconfiguration/%d", id)).getBody();
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public Map pesquisa(QueryObject query) throws IOException {
-        return (Map) this.get("/api/entry",
+        return (Map) this.get("/api/financeconfiguration",
                 this.queryObjectToMap(query)).getBody();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Map update(@PathVariable("id") Long id,
                       @RequestBody Map model) {
-        return (Map) this.put(String.format("/api/entry/%d", id), model).getBody();
+        return (Map) this.put(String.format("/api/financeconfiguration/%d", id), model).getBody();
 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Map remove(@PathVariable("id") Long id,
                       @RequestBody Map model) {
-        return (Map) this.delete(String.format("/api/entry/%d", id), model).getBody();
+        return (Map) this.delete(String.format("/api/financeconfiguration/%d", id), model).getBody();
     }
 
 }
