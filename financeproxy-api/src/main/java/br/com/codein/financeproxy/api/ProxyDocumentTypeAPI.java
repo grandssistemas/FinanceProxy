@@ -61,12 +61,6 @@ public class ProxyDocumentTypeAPI extends AbstractClient {
         return (JsonNode) this.delete(String.format("/api/documenttype/%d", id), model).getBody();
 
     }
-    
-    @RequestMapping(method = RequestMethod.GET)
-    public JsonNode getDocumentytypes(QueryObject query) {
-        return (JsonNode) this.get("/api/documenttype",
-                this.queryObjectToMap(query)).getBody();
-    }
 
 }
 
