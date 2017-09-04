@@ -1,5 +1,6 @@
 package br.com.codein.financeproxy.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.gumga.core.GumgaValues;
 import io.gumga.core.QueryObject;
@@ -30,8 +31,8 @@ public class ProxyTitleAPI extends AbstractClient {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity post(@RequestBody JsonNode titulo) {
-        return this.post("/api/title/", titulo);
+    public JsonNode post(@RequestBody JsonNode titulo) {
+        return (JsonNode) this.post("/api/title/", titulo).getBody();
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
