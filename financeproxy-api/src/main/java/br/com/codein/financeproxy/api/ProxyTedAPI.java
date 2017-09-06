@@ -28,8 +28,8 @@ public class ProxyTedAPI extends AbstractClient{
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity post(@RequestBody JsonNode titulo) {
-        return this.post("/api/ted/", titulo);
+    public JsonNode post(@RequestBody JsonNode titulo) {
+        return (JsonNode) this.post("/api/ted/", titulo).getBody();
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)

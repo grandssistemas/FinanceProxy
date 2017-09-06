@@ -26,8 +26,8 @@ public class ProxyPaymentAPI extends AbstractClient {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity post(@RequestBody JsonNode titulo) {
-        return this.post("/api/payment/", titulo);
+    public JsonNode post(@RequestBody JsonNode titulo) {
+        return (JsonNode) this.post("/api/payment/", titulo).getBody();
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -60,13 +60,13 @@ public class ProxyPaymentAPI extends AbstractClient {
     }
 
     @RequestMapping(value = "/pay",method = RequestMethod.POST)
-    public ResponseEntity pay(@RequestBody JsonNode titulo) {
-        return this.post("/api/payment/", titulo);
+    public JsonNode pay(@RequestBody JsonNode titulo) {
+        return (JsonNode) this.post("/api/payment/", titulo).getBody();
     }
 
     @RequestMapping(value ="/receive",method = RequestMethod.POST)
-    public ResponseEntity receive(@RequestBody JsonNode titulo) {
-        return this.post("/api/payment/", titulo);
+    public JsonNode receive(@RequestBody JsonNode titulo) {
+        return (JsonNode) this.post("/api/payment/", titulo).getBody();
     }
 
 
