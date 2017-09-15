@@ -26,8 +26,8 @@ public class ProxyFinanceUnitAPI extends AbstractClient {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity post(@RequestBody JsonNode titulo) {
-        return this.post("/api/financeunit/", titulo);
+    public JsonNode post(@RequestBody JsonNode titulo) {
+        return (JsonNode) this.post("/api/financeunit/", titulo).getBody();
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
