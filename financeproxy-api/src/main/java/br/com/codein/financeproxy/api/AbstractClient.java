@@ -113,7 +113,7 @@ public abstract class AbstractClient {
         ObjectMapper mapper = new ObjectMapper();
         String queryString = null;
         try {
-            queryString = mapper.writeValueAsString(queryObject);
+            queryString = mapper.writeValueAsString(queryObject).replaceAll("\\\\\\\\\"","\"");
             Map<String, String> result = mapper.readValue(queryString, Map.class);
             if (queryObject.getSearchFields() == null || queryObject.getSearchFields().length == 0) {
                 result.remove("searchFields");
