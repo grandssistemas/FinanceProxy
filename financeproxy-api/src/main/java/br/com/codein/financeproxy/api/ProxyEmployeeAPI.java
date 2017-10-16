@@ -21,10 +21,4 @@ public class ProxyEmployeeAPI extends AbstractClient{
         this.properties = gumgaValues.getCustomFileProperties();
         this.url = this.properties.getProperty("finance.url");
     }
-
-    @RequestMapping(value = "/getlogged", method = RequestMethod.GET)
-    public JsonNode getlogged() {
-        return (JsonNode) this.getArray("/api/employee/getlogged").getBody();
-    }
-
 }
