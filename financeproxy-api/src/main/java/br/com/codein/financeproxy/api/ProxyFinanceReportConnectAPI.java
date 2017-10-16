@@ -38,7 +38,7 @@ public class ProxyFinanceReportConnectAPI extends AbstractClient {
         while((str = r.readLine()) != null) {
             buffer.append(str);
         }
-        process(this.post(this.url,buffer.toString()), resp);
+        process(this.postAsString("/api/financereportconnect",buffer.toString()), resp);
     }
 
     private void process(ResponseEntity entity, HttpServletResponse resp) {
