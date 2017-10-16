@@ -85,6 +85,18 @@ public abstract class AbstractClient {
         return this.restTemplate.exchange(this.url.concat(url), HttpMethod.POST, (HttpEntity<?>) this.requestEntity, JsonNode.class);
     }
 
+    protected ResponseEntity postAsString(String url, Object object) {
+        this.restTemplate = new RestTemplate();
+        this.restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+        this.headers = new HttpHeaders();
+        this.headers.set("Accept", "application/json, text/plain, */*");
+        this.headers.set("Accept-Encoding", "gzip, deflate");
+        this.headers.set("Content-Type", "application/json;charset=utf-8");
+        this.headers.set("gumgaToken", GumgaThreadScope.gumgaToken.get());
+        this.requestEntity = new HttpEntity(object, this.headers);
+        return this.restTemplate.exchange(this.url.concat(url), HttpMethod.POST, (HttpEntity<?>) this.requestEntity, String.class);
+    }
+
     protected ResponseEntity put(String url, Object object) {
         this.restTemplate = new RestTemplate();
         this.restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
@@ -113,10 +125,17 @@ public abstract class AbstractClient {
         ObjectMapper mapper = new ObjectMapper();
         String queryString = null;
         try {
-            queryString = mapper.writeValueAsString(queryObject);
+            queryString = mapper.writeValueAsString(queryObject)
+                    .replaceAll("\\\\\\\\\"", "\"");
             Map<String, String> result = mapper.readValue(queryString, Map.class);
             if (queryObject.getSearchFields() == null || queryObject.getSearchFields().length == 0) {
                 result.remove("searchFields");
+            }
+            if(result.containsKey("aqo")){
+                result.remove("aqo");
+            }
+            if(result.containsKey("gQuery")){
+                result.remove("gQuery");
             }
             return result;
         } catch (Exception e) {
