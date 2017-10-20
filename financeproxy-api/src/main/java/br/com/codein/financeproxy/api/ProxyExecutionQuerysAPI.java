@@ -2,14 +2,10 @@ package br.com.codein.financeproxy.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.gumga.core.GumgaValues;
-import io.gumga.core.SearchResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,4 +55,10 @@ public class ProxyExecutionQuerysAPI extends AbstractClient{
     public JsonNode getEntriesByCheckin(@PathVariable  Long cashCheckinId) {
         return (JsonNode) this.get(String.format("/api/executionquerys/entriesbycheckin/%d", cashCheckinId)).getBody();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "financeUnitBalance")
+    public JsonNode getFinanceUnitBalance(@RequestParam Long financeUnitId) {
+        return (JsonNode) this.get(String.format("/api/executionquerys/financeUnitBalance?financeUnitId=%d", financeUnitId)).getBody();
+    }
+
 }
