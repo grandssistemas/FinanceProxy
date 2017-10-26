@@ -148,7 +148,9 @@ public abstract class AbstractClient {
         MultiValueMap<K, V> linkedMultiValueMap = new LinkedMultiValueMap<>();
 
         map.keySet().forEach(key -> {
-            linkedMultiValueMap.add(key, map.get(key));
+            if(map.get(key)!= null){
+                linkedMultiValueMap.add(key, map.get(key));
+            }
         });
         return linkedMultiValueMap;
 
