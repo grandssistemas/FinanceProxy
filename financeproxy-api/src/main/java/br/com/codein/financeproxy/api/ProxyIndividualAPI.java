@@ -33,6 +33,11 @@ public class ProxyIndividualAPI extends AbstractClient {
                 this.queryObjectToMap(query)).getBody();
     }
 
+    @RequestMapping(value = "/getlogged", method = RequestMethod.GET)
+    public JsonNode getlogged() {
+        return (JsonNode) this.getArray("/api/individual/getlogged").getBody();
+    }
+
 
 }
 
