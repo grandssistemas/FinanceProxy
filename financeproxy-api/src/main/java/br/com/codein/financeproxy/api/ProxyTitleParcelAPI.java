@@ -67,5 +67,10 @@ public class ProxyTitleParcelAPI extends AbstractClient {
     public JsonNode loadIndividualGrouped(@PathVariable("type") String type, @PathVariable("ind") Long ind) {
         return (JsonNode) this.get(String.format("/api/titleparcel/grouped/%s/%d", type, ind)).getBody();
     }
+
+    @RequestMapping(value = "/getpaymentsbyparcel/{id}", method = RequestMethod.GET)
+    public JsonNode getPaymentsByParcel(@PathVariable("id") Long id) {
+        return (JsonNode) this.get(String.format("/api/titleparcel/getpaymentsbyparcel/%d", id)).getBody();
+    }
 }
 
