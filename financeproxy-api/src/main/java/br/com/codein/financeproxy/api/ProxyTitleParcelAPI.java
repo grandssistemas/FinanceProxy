@@ -1,8 +1,10 @@
 package br.com.codein.financeproxy.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.gumga.annotations.GumgaSwagger;
 import io.gumga.core.GumgaValues;
 import io.gumga.core.QueryObject;
+import io.gumga.core.SearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +73,11 @@ public class ProxyTitleParcelAPI extends AbstractClient {
     @RequestMapping(value = "/getpaymentsbyparcel/{id}", method = RequestMethod.GET)
     public JsonNode getPaymentsByParcel(@PathVariable("id") Long id) {
         return (JsonNode) this.get(String.format("/api/titleparcel/getpaymentsbyparcel/%d", id)).getBody();
+    }
+
+    @RequestMapping(path = "/gquery", method = RequestMethod.POST)
+    public JsonNode qquery(@RequestBody JsonNode query) {
+        return (JsonNode) this.post("/api/titleparcel/gquery", query).getBody();
     }
 }
 
