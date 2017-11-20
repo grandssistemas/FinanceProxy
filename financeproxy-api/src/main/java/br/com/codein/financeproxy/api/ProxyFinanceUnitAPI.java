@@ -59,6 +59,11 @@ public class ProxyFinanceUnitAPI extends AbstractClient {
         return (JsonNode) this.delete(String.format("/api/financeunit/%d", id), model).getBody();
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/findbyopenunitgroup")
+    public JsonNode findByOpenUnitGroup(@RequestParam String nome) {
+        return (JsonNode) this.get(String.format("/api/financeunit/findbyopenunitgroup?nome=%s", nome)).getBody();
+    }
+
 
 
 }
