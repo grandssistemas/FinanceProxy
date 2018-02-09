@@ -13,7 +13,6 @@ import java.util.Properties;
 @RequestMapping("/api/financeintegration/wallet")
 public class ProxyWalletAPI extends AbstractClient {
 
-
     private Properties properties;
 
     @Autowired
@@ -57,5 +56,11 @@ public class ProxyWalletAPI extends AbstractClient {
         return (JsonNode) this.delete(String.format("/api/wallet/%d", id), model).getBody();
 
     }
+
+    @RequestMapping(value = "/gquery", method = RequestMethod.POST)
+    public JsonNode gQuery(@RequestBody JsonNode gquery) {
+        return (JsonNode) this.post("/api/wallet/gquery", gquery).getBody();
+    }
+
 
 }
