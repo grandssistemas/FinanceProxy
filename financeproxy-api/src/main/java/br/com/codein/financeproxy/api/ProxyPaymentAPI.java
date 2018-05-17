@@ -48,14 +48,14 @@ public class ProxyPaymentAPI extends AbstractClient {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public JsonNode update(@PathVariable("id") Long id,
-                      @RequestBody JsonNode model) {
+                           @RequestBody JsonNode model) {
         return (JsonNode) this.put(String.format("/api/payment/%d", id), model).getBody();
 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public JsonNode remove(@PathVariable("id") Long id,
-                      @RequestBody JsonNode model) {
+                           @RequestBody JsonNode model) {
         return (JsonNode) this.delete(String.format("/api/payment/%d", id), model).getBody();
     }
 
@@ -69,6 +69,10 @@ public class ProxyPaymentAPI extends AbstractClient {
         return (JsonNode) this.post("/api/payment/receive", titulo).getBody();
     }
 
+    @RequestMapping(value ="/gquery",method = RequestMethod.POST)
+    public JsonNode gquery(@RequestBody JsonNode gquery) {
+        return (JsonNode) this.post("/api/payment/gquery", gquery).getBody();
+    }
 
 }
 
