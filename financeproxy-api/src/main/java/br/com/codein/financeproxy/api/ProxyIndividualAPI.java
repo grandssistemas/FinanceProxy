@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +43,11 @@ public class ProxyIndividualAPI extends AbstractClient {
     @RequestMapping(value = "/getcompany", method = RequestMethod.GET)
     public JsonNode getcompany() {
         return (JsonNode) this.getArray("/api/individual/getcompany").getBody();
+    }
+
+    @RequestMapping(value ="/gquery", method = RequestMethod.POST)
+    public JsonNode gquery(@RequestBody JsonNode gquery) {
+        return (JsonNode) this.post("/api/individual/gquery", gquery).getBody();
     }
 
 }
