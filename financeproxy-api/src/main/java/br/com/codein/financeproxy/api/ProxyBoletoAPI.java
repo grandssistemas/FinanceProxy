@@ -1,14 +1,16 @@
 package br.com.codein.financeproxy.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import io.gumga.core.GumgaValues;
+import java.util.Properties;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Properties;
+import com.fasterxml.jackson.databind.JsonNode;
+
+import br.com.codein.financeproxy.configuration.FinanceProxyProperties;
 
 /**
  * Created by marcio on 30/08/17.
@@ -22,10 +24,10 @@ public class ProxyBoletoAPI extends AbstractClient {
     private Properties properties;
 
     @Autowired
-    public ProxyBoletoAPI(GumgaValues gumgaValues) {
+    public ProxyBoletoAPI(FinanceProxyProperties fProperties) {
         super();
-        this.properties = gumgaValues.getCustomFileProperties();
-        this.url = this.properties.getProperty("finance.url");
+        this.properties = fProperties.getProperties();
+        this.url = this.properties.getProperty("mobiage.finance.host");
     }
 
     @RequestMapping(value = "/{line}", method = RequestMethod.GET)
