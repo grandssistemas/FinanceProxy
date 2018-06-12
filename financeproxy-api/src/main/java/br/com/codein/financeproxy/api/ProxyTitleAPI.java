@@ -89,5 +89,10 @@ public class ProxyTitleAPI extends AbstractClient {
         return (JsonNode) this.get(String.format("/api/title/findbylabel/%s/%s", label, type)).getBody();
     }
 
+    @RequestMapping(value ="/gquery", method = RequestMethod.POST)
+    public JsonNode gquery(@RequestBody JsonNode gquery) {
+        return (JsonNode) this.post("/api/title/gquery", gquery).getBody();
+    }
+
 }
 
