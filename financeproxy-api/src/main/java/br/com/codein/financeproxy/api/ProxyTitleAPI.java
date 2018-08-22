@@ -94,5 +94,10 @@ public class ProxyTitleAPI extends AbstractClient {
         return (JsonNode) this.post("/api/title/gquery", gquery).getBody();
     }
 
+    @RequestMapping(value = "/typecategorys/")
+    public JsonNode listTitleTypeCategory(@RequestBody JsonNode gquery) {
+        return (JsonNode) this.post("/api/title/typecategory/", gquery).getBody();
+    }
+
 }
 
