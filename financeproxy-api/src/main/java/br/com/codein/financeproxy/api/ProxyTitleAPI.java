@@ -40,6 +40,11 @@ public class ProxyTitleAPI extends AbstractClient {
         return (JsonNode) this.get("/api/title/new").getBody();
     }
 
+    @RequestMapping(value = "/newfromentry", method = RequestMethod.POST)
+    public JsonNode generateNew(@RequestBody JsonNode titleTO) {
+        return (JsonNode) this.post("/api/title/new", titleTO).getBody();
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public JsonNode load(@PathVariable Long id) {
         return (JsonNode) this.get(String.format("/api/title/%d", id)).getBody();
