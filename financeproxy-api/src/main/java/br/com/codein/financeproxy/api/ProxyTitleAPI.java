@@ -40,6 +40,11 @@ public class ProxyTitleAPI extends AbstractClient {
         return (JsonNode) this.get("/api/title/new").getBody();
     }
 
+    @RequestMapping(value = "/newfromentry", method = RequestMethod.POST)
+    public JsonNode generateNew(@RequestBody JsonNode titleTO) {
+        return (JsonNode) this.post("/api/title/new", titleTO).getBody();
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public JsonNode load(@PathVariable Long id) {
         return (JsonNode) this.get(String.format("/api/title/%d", id)).getBody();
@@ -92,6 +97,11 @@ public class ProxyTitleAPI extends AbstractClient {
     @RequestMapping(value ="/gquery", method = RequestMethod.POST)
     public JsonNode gquery(@RequestBody JsonNode gquery) {
         return (JsonNode) this.post("/api/title/gquery", gquery).getBody();
+    }
+
+    @RequestMapping(value = "/typecategorys", method = RequestMethod.POST)
+    public JsonNode listTitleTypeCategory(@RequestBody JsonNode gquery) {
+        return (JsonNode) this.post("/api/title/typecategory", gquery).getBody();
     }
 
 }
