@@ -79,7 +79,7 @@ public class ProxyCheckinAPI extends AbstractClient {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, path = "/do-cashcheckin")
     public JsonNode openCashCheckin(@RequestBody JsonNode openCashCheckin) {
         return (JsonNode) this.post("/api/cashcheckin/do-cashcheckin", openCashCheckin).getBody();
     }
