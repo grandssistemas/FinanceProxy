@@ -1,6 +1,7 @@
 package br.com.codein.financeproxy.api;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,12 @@ public class ProxyFinanceUnitGroupAPI extends AbstractClient{
     public JsonNode pesquisa(QueryObject query) throws IOException {
         return (JsonNode) this.get("/api/financeunitgroup",
                 this.queryObjectToMap(query)).getBody();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/v2/gquery")
+    public JsonNode gquery(@RequestBody Map query) throws IOException {
+        return (JsonNode) this.post("/api/financeunitgroup/v2/gquery", query).getBody();
+
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
